@@ -1,0 +1,102 @@
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.Collection;
+
+/*
+ Author : Prabhmanmeet Singh.
+ Method : To find the mean, variance and the number of outcomes in specified intervals.
+ */
+
+
+public class Uniform_Distribution {
+
+	public static void main(String []args){
+		// Divisor
+		Float m = new Float(2147483647);
+		// Multiplication
+		Float k = new Float(16807);
+		// Seed
+		Float s = new Float(1111);
+		// Array for data
+		Float[] data_uniform = new Float[10000];
+		// Mean
+		Float mean = new Float(0);
+		// Variance
+		Float variance = new Float(0);
+		// Array for count in each interval
+		Integer[] count = new Integer[10];
+		for(int i = 0; i < 10 ; i++){
+			count[i] = 0;
+		}
+		// Implement sequence generator
+		// S(n+1) = S(n) * k mod m
+		// r(n) = S(n) / m
+		
+		// Calculate 10,000 entries between 0 and 1
+		for(int i = 0 ; i < 10000 ; i++){
+			if(i == 0){
+				data_uniform[i] = ( (k * s) % m ) / m;	// each data value is r(n)
+			}
+			else{
+				data_uniform[i] = ( ( k * data_uniform[i-1] * m ) % m ) / m;
+			}
+		}
+		// Sorting the array
+		Arrays.sort(data_uniform);
+		
+		for(int i = 0; i < 10000 ; i++){
+			mean = mean + data_uniform[i];		// Adding all
+		}
+		mean = mean / 10000;			// Dividing to find mean
+		
+		// Variance
+		
+		for(int i = 0; i < 10000 ; i++){
+			variance = variance + (data_uniform[i] - mean) * (data_uniform[i] - mean);
+		}
+		variance = variance / 10000;
+		
+		System.out.println("\nThe Mean is : "+mean);
+		System.out.println("\nThe Variance is : "+variance);
+		
+		// Count in each interval.
+		// RANGE GIVEN as SQUARE BRACKETS in Problem Statement, so both limits included.
+		for(int i = 0; i < 10000 ; i++){
+		if(data_uniform[i] >= 0 && data_uniform[i] <= 0.1){			// 0 to 0.1
+			count[0] += 1;
+		}
+		if(data_uniform[i] >= 0.1 && data_uniform[i] <= 0.2){		// 0.1 to 0.2
+			count[1] += 1;
+		}
+		if(data_uniform[i] >= 0.2 && data_uniform[i] <= 0.3){		// 0.2 to 0.3
+			count[2] += 1;
+		}
+		if(data_uniform[i] >= 0.3 && data_uniform[i] <= 0.4){		// 0.3 to 0.4
+			count[3] += 1;
+		}
+		if(data_uniform[i] >= 0.4 && data_uniform[i] <= 0.5){		// 0.4 to 0.5
+			count[4] += 1;
+		}
+		if(data_uniform[i] >= 0.5 && data_uniform[i] <= 0.6){		// 0.5 to 0.6
+			count[5] += 1;
+		}
+		if(data_uniform[i] >= 0.6 && data_uniform[i] <= 0.7){		// 0.6 to 0.7
+			count[6] += 1;
+		}
+		if(data_uniform[i] >= 0.7 && data_uniform[i] <= 0.8){		// 0.7 to 0.8
+			count[7] += 1;
+		}
+		if(data_uniform[i] >= 0.8 && data_uniform[i] <= 0.9){		// 0.8 to 0.9
+			count[8] += 1;
+		}
+		if(data_uniform[i] >= 0.9 && data_uniform[i] <= 1){			// 0.9 to 1
+			count[9] += 1;
+		}
+		}
+		System.out.println("\nThe count in each interval is below: ");
+		for(int i = 0; i < 10; i++){
+			System.out.println("\nInterval "+(i+1)+" -> "+count[i]);
+		}
+	}
+}
