@@ -1,0 +1,43 @@
+package amazon;
+
+import java.util.Scanner;
+
+public class OneLessTwoPower {
+
+	/**
+	 * Finds whether the number is one less than the power of 2
+	 */
+	public static void main(String[] args) {
+		Scanner obj = new Scanner(System.in);
+		
+		int two = 2;
+		int num = obj.nextInt();
+		StringBuffer value = new StringBuffer();
+		
+		// Converting to binary value
+		while(num > 2){
+			int temp = num % 2;
+			// gives the remainder
+			value = value.append(temp);
+			two = two * 2;
+			num = num / 2;
+		}
+		value = value.append(num);
+		value = value.reverse();
+		char[] array = value.toString().toCharArray();
+		
+		// To be One less than power of 2 number, all values will be one
+		for(int i = 0; i< array.length; i++){
+			if(array[i] == '1'){
+				continue;
+			}
+			else{
+				System.out.println("Not Less Than 2 raise to power n minus 1");
+				System.exit(1);
+			}
+		}
+		// Will be less than 2 raise to power length of array.
+		System.out.println("Yes it is 1 less than 2 to the power n minus 1: "+two);
+	}
+
+}
