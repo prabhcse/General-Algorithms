@@ -1,0 +1,46 @@
+import java.util.Scanner;
+
+public class BaseToBaseConversion {
+
+	/**
+	 * @Author: Prabhmanmeet Singh
+	 */
+	public static void main(String[] args) {
+		Scanner obj = new Scanner(System.in);
+		System.out.println("Give the From base:");
+		int m = obj.nextInt();
+		System.out.println("Give the number:");
+		int numM = obj.nextInt();
+		System.out.println("Give the To base:");
+		int n = obj.nextInt();
+		if(numM == 1)
+		{
+			System.out.println("Number is: "+ 1);
+			System.exit(1);
+		}
+		int change = 0;
+		int i = 0;
+		int from = numM;
+		System.out.println("FROM:"+from);
+
+		// ^ - means XOR in JAVA
+		// Need to use pow() method
+		
+		while(from > 0)
+		{
+			change = (int) (change + ((from % 10) * Math.pow(m,i)));
+			from = from / 10;
+			i++;
+		}
+		System.out.println("Intermediate: "+change);
+		StringBuffer finalN = new StringBuffer();
+		while(change > 0)
+		{
+			finalN.append(change % n);
+			change = change / n;
+		}
+		
+		System.out.println("Final: "+finalN.reverse());
+	}
+
+}
