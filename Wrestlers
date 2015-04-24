@@ -1,0 +1,76 @@
+import java.util.LinkedList;
+import java.util.Scanner;
+
+/*
+ * Given N wrestlers and R pairs for Rivals, find a way to designate 
+ * Wrestlers as Good or Bad, check if it is possible to designate.
+ */
+public class Wrestlers {
+
+	/**
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		System.out.println("Give the number of wrestlers");
+		Scanner obj = new Scanner(System.in);
+		int n = obj.nextInt();
+		LinkedList<String> wrestlers = new LinkedList<String>();
+		for(int i = 0; i < n ; i++)
+		{
+			wrestlers.add("N");
+		}
+		System.out.println("Give the pairs:");
+		String input;
+		LinkedList<String> pairs = new LinkedList<String>();
+		while(!((input = obj.next()).equals("0")))
+		{
+			pairs.add(input);
+		}
+		
+		for(int i = 0; i < pairs.size(); i++)
+		{
+			String temp[] = pairs.get(i).split(",");
+			if(wrestlers.get(Integer.parseInt(temp[0])-1).equals("N") && 
+					wrestlers.get(Integer.parseInt(temp[1])-1).equals("N"))
+			{
+				wrestlers.set(Integer.parseInt(temp[0])-1, "G");
+				wrestlers.set(Integer.parseInt(temp[1])-1, "B");
+			}
+			else if(wrestlers.get(Integer.parseInt(temp[0])-1).equals("N") || 
+					wrestlers.get(Integer.parseInt(temp[1])-1).equals("N"))
+			{
+				if(wrestlers.get(Integer.parseInt(temp[0])-1).equals("G"))
+				{
+					wrestlers.set(Integer.parseInt(temp[1])-1, "B");
+				}
+				else if(wrestlers.get(Integer.parseInt(temp[0])-1).equals("B"))
+				{
+					wrestlers.set(Integer.parseInt(temp[1])-1, "G");
+				}
+				else if(wrestlers.get(Integer.parseInt(temp[1])-1).equals("G"))
+				{
+					wrestlers.set(Integer.parseInt(temp[0])-1, "B");
+				}
+				else if(wrestlers.get(Integer.parseInt(temp[1])-1).equals("B"))
+				{
+					wrestlers.set(Integer.parseInt(temp[0])-1, "G");
+				}
+			}
+			else if((wrestlers.get(Integer.parseInt(temp[0])-1).equals("G") && 
+					wrestlers.get(Integer.parseInt(temp[1])-1).equals("G"))		||
+					(wrestlers.get(Integer.parseInt(temp[0])-1).equals("B") && 
+					wrestlers.get(Integer.parseInt(temp[1])-1).equals("B")))
+			{
+				System.out.println("Error: Wrestlers Designation not Possible.");
+				System.exit(1);
+			}
+		}
+		System.out.println("Finals: ");
+		for(int i = 0; i < wrestlers.size(); i++)
+		{
+			System.out.println((i+1)+"-"+wrestlers.get(i)+",");
+		}
+		// Need to leave out wrestlers not part of rivalry out 
+	}
+
+}
