@@ -1,0 +1,81 @@
+package dynamic_prog;
+
+import java.util.Scanner;
+
+public class Knapsack_0_1 {
+
+	/**
+	 * @Author: Prabhmanmeet Singh
+	 */
+	public static void main(String[] args) {
+		// just a check
+		int i = 10;
+		System.out.println(i+++" price "+i--);
+		knapsack_0_1();
+	}
+	
+	private static void knapsack_0_1(){
+		Scanner obj = new Scanner(System.in);
+		System.out.println("This is knapsack 0 1");
+		System.out.println("Give the number of items:");
+		int N = obj.nextInt();
+		System.out.println("Give the weight limit on knapsack");
+		int W = obj.nextInt();
+		int[][] itemArray = new int[N][2];
+		for(int i = 1; i <= N; i++){
+			System.out.println("Give the weight and value of item "+i);
+			// weight
+			itemArray[i-1][0] = obj.nextInt();
+			// value
+			itemArray[i-1][1] = obj.nextInt();
+		}
+		
+		// Starting the array for storing the values
+		int[][] array = new int [N+1][W+1];
+		// initialize that for 0 item in knapsack the values are zero
+		for(int i = 0; i <= W; i++){
+			array[0][i] = 0;
+		}
+		// building the matrix
+		for(int i = 1; i <= N; i++){
+			for(int j = 0; j <= W; j++){
+				if(itemArray[i-1][0] > j){
+					array[i][j] = array[i-1][j];	// the item i is not added as it exceeds CURRENT weight limit
+				}
+				else{
+					// we check the max value,
+					// without item i being added i.e. array[i-1][j]
+					// with item i being added i.e. array[i-1][j-itemArray[i][0]] + itemArray[i][1], HERE
+					// j - itemArray[i][0] signifies that weight constraint should not be exceeded
+					array[i][j] = max( array[i-1][j] , ( array[i-1][ j-itemArray[i-1][0] ] + itemArray[i-1][1] ) );
+				}
+			}
+		}
+		
+		for(int i = 0 ; i <= N ; i++){
+			System.out.println();
+			for(int j = 0 ; j <= W ; j++){
+				System.out.print(array[i][j]+",");
+			}
+		}
+		System.out.println("\n\n");
+		int i = N;
+		int j = W;
+			while(j > 0 && i > 0){
+				if(array[i][j] != array[i-1][j]){		// item i was added, that is why there is difference between values
+					System.out.println("Item : "+i+" added with weight-"+itemArray[i-1][0]+" , value-"+itemArray[i-1][1]);
+					j = j - itemArray[i-1][0];
+					i = i - 1;
+				}
+				else{
+					i = i - 1;
+				}
+			}
+		
+	}
+
+	// returns the bigger value, if tie then returns y
+	public static int max(int x, int y){
+		return x > y ? x : y;
+	}
+}
