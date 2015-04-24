@@ -1,0 +1,183 @@
+import java.util.ArrayList;
+import java.util.Scanner;
+
+
+public class MedianOfSortedArrays {
+
+	/**
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		Scanner obj = new Scanner(System.in);
+		int temp = 0;
+		ArrayList<Integer> a1 = new ArrayList<Integer>();
+		ArrayList<Integer> a2 = new ArrayList<Integer>();
+//		System.out.println("Give Array 1:");
+//		while((temp = obj.nextInt()) != 0)
+//		{
+//			a1.add(temp);
+//		}
+//		System.out.println("Give Array 2:");
+//		while((temp = obj.nextInt()) != 0)
+//		{
+//			a2.add(temp);
+//		}
+		for(int i = 1; i < 100000; i++)
+		{
+			a1.add(i);
+		}
+		for(int i = 1; i < 100000; i++)
+		{
+			a2.add(i);
+		}
+		Long start = System.nanoTime();
+		System.out.println("Median: "+medianCal(a1,a2));
+		Long end = System.nanoTime();
+		Long dur1 = end - start;
+		System.out.println("SHIFT");
+		start = System.nanoTime();
+		System.out.println("Median: "+median(a1,a2));
+		end = System.nanoTime();
+		Long dur2 = end - start;
+		
+		System.out.println("Median - O(log n): "+dur1);
+		System.out.println("Median - O(n): "+dur2);
+	}
+	
+	// Efficient Method - O(n)
+	public static int medianCal(ArrayList<Integer> a1,ArrayList<Integer> a2)
+	{
+		//System.out.println("Arrays: "+a1+","+a2);
+		int result = 0;
+		// Only works for arrays of same size
+		if(a1.size() == 2 && a2.size() == 2)
+		{
+			result = ( max(a1.get(0),a2.get(0)) + min(a1.get(1),a2.get(1)) ) / 2;
+		}
+		else
+		{
+			int m1 = 0;
+			int m2 = 0;
+			if(a1.size() % 2 == 0)
+			{
+				m1 = ( a1.get(a1.size()/2) + a1.get((a1.size()/2)-1) ) / 2;
+			}
+			else
+			{
+				m1 = a1.get(a1.size()/2);
+			}
+			if(a2.size() % 2 == 0)
+			{
+				m2 = ( a2.get(a2.size()/2) + a2.get((a2.size()/2)-1) ) / 2;
+			}
+			else
+			{
+				m2 = a2.get(a2.size()/2);
+			}
+			if(m1 == m2)
+			{
+				result = m1;
+			}
+			else if(m1 > m2)
+			{
+				if(a1.size() % 2  == 0 && a2.size() % 2 == 0)
+				{
+					ArrayList<Integer> n1 = new ArrayList<Integer>(); 
+					n1.addAll(a1.subList(0, (a1.size()/2)));
+					ArrayList<Integer> n2 = new ArrayList<Integer>(); 
+					n2.addAll(a2.subList(a2.size()/2, a2.size()));
+					result = medianCal(n1, n2);
+				}
+				else
+				{
+					ArrayList<Integer> n1 = new ArrayList<Integer>(); 
+					n1.addAll(a1.subList(0, a1.indexOf(m1)+1));
+					ArrayList<Integer> n2 = new ArrayList<Integer>(); 
+					n2.addAll(a2.subList(a2.indexOf(m2), a2.size()));
+					result = medianCal(n1, n2);
+				}
+			}
+			else
+			{
+				if(a1.size() % 2  == 0 && a2.size() % 2 == 0)
+				{
+					ArrayList<Integer> n1 = new ArrayList<Integer>(); 
+					n1.addAll(a1.subList((a1.size()/2), a1.size()));
+					ArrayList<Integer> n2 = new ArrayList<Integer>(); 
+					n2.addAll(a2.subList(0, (a2.size()/2))); 
+					result = medianCal(n1, n2);
+				}
+				else
+				{
+					ArrayList<Integer> n1 = new ArrayList<Integer>(); 
+					n1.addAll(a1.subList(a1.indexOf(m1), a1.size()));
+					ArrayList<Integer> n2 = new ArrayList<Integer>(); 
+					n2.addAll(a2.subList(0, a2.indexOf(m2)+1)); 
+					result = medianCal(n1, n2);
+				}
+			}
+		}
+		return result;
+	}
+	
+	public static int median(ArrayList<Integer> a1, ArrayList<Integer> a2)
+	{
+		int result = 0;
+		
+		ArrayList<Integer> n = new ArrayList<Integer>();
+		int i = 0;
+		int j = 0;
+		while(true)
+		{
+			if(i == a1.size() && j == a2.size())
+			{
+				//System.out.println("FINAL ARRAY: "+n);
+				if(n.size() % 2 == 0)
+				{
+					result = ( n.get(n.size()/2) + n.get((n.size()/2)-1) ) / 2;
+				}
+				else
+				{
+					result = n.get(n.size()/2);
+				}
+				break;
+			}
+			else if(i == a1.size() && j != a2.size())
+			{
+				n.add(a2.get(j));
+				j++;
+			}
+			else if(j == a2.size() && i != a1.size())
+			{
+				n.add(a1.get(i));
+				i++;
+			}
+			else
+			{
+				if(a1.get(i) <= a2.get(j))
+				{
+					n.add(a1.get(i));
+					i++;
+				}
+				else
+				{
+					n.add(a2.get(j));
+					j++;
+				}
+			}
+		}
+		
+		return result;
+	}
+	
+	public static int max(int x, int y)
+	{
+		return (x >= y ? x : y);
+	}
+	
+	public static int min(int x, int y)
+	{
+		return (x <= y ? x : y);
+	}
+
+}
