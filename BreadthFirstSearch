@@ -1,0 +1,146 @@
+/*
+ * BreadthFirstSearch.cpp
+ *
+ *  Created on: 17-Jan-2015
+ *      Author: PRABH
+ */
+#include<iostream>
+#include<queue>
+#include<list>
+#include<vector>
+
+using namespace std;
+
+class Node
+{
+public:
+	int value;
+	int color;
+	int dist;
+	Node* children;
+	Node* parent;
+	Node(int value)
+	{
+		this->value = value;
+		color = 0;
+		dist = 0;
+		children = 0;
+		parent = 0;
+	}
+};
+
+struct adjList
+{
+	int value;
+	adjList* next;
+	adjList(int value)
+	{
+		this->value = value;
+		next = 0;
+	}
+};
+
+void printAdj(const adjList* adj, int size)
+{
+	cout<<"Print the Adjacency List"<<endl;
+	for(int i = 0; i < size; i++)
+	{
+		adjList* index = adj[i].next;
+		cout<<"\n"<<index->value;
+		while(index->next != 0)
+		{
+			index = index->next;
+			cout<<","<<index->value;
+		}
+	}
+}
+
+// Build Breadth First Tree for given Adjacency List of Graph, for all nodes
+void BFS(const adjList* adj, int size)
+{
+	cout<<"\n BFS Started\n";
+	queue<int> myQueue;
+	vector<Node> bfs;
+	for(int i = 0; i < size; i++)
+	{
+		bfs.push_back(Node(adj[i].next->value));
+	}
+	// White = 0, Grey = 1, Black = 2
+	myQueue.push(1);
+	while(!myQueue.empty())
+	{
+		int s = (int)myQueue.front();
+		cout<<"\nSource now: "<<s;
+		adjList* list = adj[s-1].next;
+		while(true);
+		{
+			list = list->next;
+			if(list == 0)
+			{
+				break;
+			}
+			Node parNode = bfs[s-1];
+			Node newNode = bfs[(list->value)-1];
+			cout<<"\nParent: "<<parNode.value<<","<<parNode.color;
+			cout<<"\nChild: "<<newNode.value<<","<<newNode.color;
+			if(newNode.color == 0){
+				newNode.color = 1;
+				newNode.dist = parNode.dist + 1;
+				newNode.parent = &parNode;
+				bfs[(list->value)-1] = newNode;
+				myQueue.push(list->value);
+			}
+			parNode.color = 2;
+			bfs[s-1] = parNode;
+		}
+		myQueue.pop();
+	}
+
+	cout<<"\nBFS:"<<endl;
+	for(int i = 0; i < size; i++)
+	{
+		Node cur = bfs[i];
+		cout<<"Node: ";
+		cout<<cur.value<<", ";
+		cout<<cur.dist<<", ";
+		cout<<cur.parent<<", ";
+		cout<<cur.color<<endl;
+	}
+}
+
+
+int main()
+{
+	int n = 0;
+	while(n <= 0)
+	{
+		cout<<"Give the number of nodes"<<endl;
+		cin>>n;
+	}
+
+	// Way to Build Adjacency List
+	adjList* adjacent = (adjList*) calloc(n, sizeof(adjList));
+	cout<<"Give the adjacent nodes"<<endl;
+	for(int i = 1; i <= n; i++)
+	{
+		int temp = 0;
+		adjList* next = new adjList(i);
+		adjacent[i-1].next = next;
+		cin>>temp;
+		while(temp != 0)
+		{
+			adjList* id = new adjList(temp);
+			next->next = id;
+			next = next->next;
+			cin>>temp;
+		}
+		cout<<"next"<<endl;
+	}
+	printAdj(adjacent, n);
+	// Way to Build Adjacency List
+
+	// BFS
+	// Breadth First Search Tree, generated for each source
+	BFS(adjacent, n);
+}
+
