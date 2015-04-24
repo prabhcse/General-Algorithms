@@ -1,0 +1,202 @@
+package geekForGeekspractice;
+
+import java.util.ArrayList;
+import java.util.Scanner;
+
+public class Ugly_Numbers {
+
+	/**
+	 * @Author: Prabhmanmeet Singh
+	 */
+	public static void main(String[] args) {
+		
+		Method1();
+		// Changing the flow, adding initial values
+		Method2();
+	}
+
+	// Generate UGLY number itself, just check the count
+	public static void Method2()
+	{
+		Scanner obj = new Scanner(System.in);
+		System.out.println("Give the nth Ugly to find");
+		int nth = obj.nextInt();
+		ArrayList<Integer> factors = new ArrayList<Integer>();
+		factors.add(2);
+		factors.add(3);
+		factors.add(5);
+		int mul2 = 0;
+		//int mul2 = 6;
+		int mul3 = 0;
+		//int mul3 = 5;
+		int mul5 = 0;
+		//int mul5 = 3;
+		int n = 1;
+		ArrayList<Integer> ugly = new ArrayList<Integer>();
+		ugly.add(1);
+//		ugly.add(2);
+//		ugly.add(3);
+//		ugly.add(4);
+//		ugly.add(5);
+//		ugly.add(6);
+//		ugly.add(8);
+//		ugly.add(9);
+//		ugly.add(10);
+//		ugly.add(12);
+//		ugly.add(15);
+		long start = System.nanoTime();
+		while(n <= nth)
+		{
+			int val2 = ugly.get(mul2) * factors.get(0);
+			int val3 = ugly.get(mul3) * factors.get(1);
+			int val5 = ugly.get(mul5) * factors.get(2);
+			int val4 = min(val2, val3, val5);
+			ugly.add(val4);
+			n++;
+			
+			if(val4 == val2)
+			{
+				mul2++;
+			}
+			else if(val4 == val3)
+			{
+				mul3++;
+			}
+			else
+			{
+				mul5++;
+			}
+		}
+		
+//		ArrayList<Integer> out = new ArrayList<Integer>();
+//		
+//		for(int l = 0; l < ugly.size(); l++)
+//		{
+//			if(l != 0 && ugly.get(l) == ugly.get(l-1))
+//			{
+//				continue;
+//			}
+//			out.add(ugly.get(l));
+//		}
+//		
+		long end = System.nanoTime();
+		
+		System.out.println("Ugly Numbers");
+//		for(int l = 0; l < out.size(); l++)
+//		{
+//			System.out.print(out.get(l)+",");
+//			if(l % 10 == 0)
+//			{
+//				System.out.println();
+//			}
+//		}
+		for(int l = 0; l < ugly.size(); l++)
+		{
+			System.out.print(ugly.get(l)+",");
+			if(l % 10 == 0)
+			{
+				System.out.println();
+			}
+		}
+		System.out.println("Duration: "+(end-start));
+	}
+	
+	public static int min(int x, int y, int z)
+	{
+		if(x < y)
+		{
+			if(x < z)
+			{
+				return x;
+			}
+			else
+			{
+				return z;
+			}
+		}
+		else if(y < z)
+		{
+			return y;
+		}
+		else
+		{
+			return z;
+		}
+	}
+	
+	// Generate an integer then test it for UGLY Number
+	public static void Method1()
+	{
+		Scanner obj = new Scanner(System.in);
+		System.out.println("Give the nth Ugly to find");
+		int nth = obj.nextInt();
+		ArrayList<Integer> factors = new ArrayList<Integer>();
+		factors.add(5);
+		factors.add(3);
+		factors.add(2);
+		int n = 1;
+		int k = 0;
+		int p = 2;
+		int temp = p;
+		ArrayList<Integer> ugly = new ArrayList<Integer>();
+		ugly.add(1);
+		long start = System.nanoTime();
+		while(n <= nth)
+		{
+			if( k < 2 && temp % factors.get(k) == 0)
+			{
+				temp = temp / factors.get(k);
+				if(temp == 1)
+				{
+					ugly.add(p);
+					k = 0;
+					n++;
+					p++;
+					temp = p;
+				}
+			}
+			else
+			{
+				if(k == 2)
+				{
+					if(temp % factors.get(k) == 0)
+					{
+						temp = temp / factors.get(k);
+						if(temp == 1)
+						{
+							ugly.add(p);
+							k = 0;
+							n++;
+							p++;
+							temp = p;
+						}
+					}
+					else
+					{
+						k = 0;
+						p++;
+						temp = p;
+					}
+				}
+				else
+				{
+					k++;
+				}
+			}
+		}
+		
+		long end = System.nanoTime();
+		
+		System.out.println("Ugly Numebrs");
+		for(int l = 0; l < ugly.size(); l++)
+		{
+			System.out.print(ugly.get(l)+",");
+			if(l % 10 == 0)
+			{
+				System.out.println();
+			}
+		}
+		System.out.println("Duration: "+(end-start));
+	
+	}
+}
