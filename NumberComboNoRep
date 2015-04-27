@@ -1,0 +1,137 @@
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+void print(vector<vector<int>> &);
+int power(int, int);
+
+int main()
+{
+	int n = 0;
+	cout<<"Give the number:";
+	cin>>n;
+	if(n < 1)
+	{
+		cout<<"\n Error: n cannot be less than one"<<endl;
+		return 0;
+	}
+	
+	//Loop invarient
+	// combine i with i and above digits, new combo will always be unique
+	
+	
+	vector<vector<int>> r1 (10);
+	vector<vector<int>> r2 (10);
+	
+	for(int i = 0; i < 10; i++)
+	{
+		r1[i].push_back(i);
+	}
+	
+	bool even = false;
+	if(n%2 == 0)
+	{
+		even = true;
+	}
+	
+	if( 1 > n )
+	{
+		cout<<"\n Error: negative and zero not allowed"<<endl;
+		return 0;
+	}
+	else if( 1 == n )
+	{
+		print(r1);
+		return 1;
+	}
+	else
+	{
+		for(int d = 1; d < n; d++)
+		{
+			//cout<<"\nR1 size:"<<r1[0].size();
+			//cout<<"\nR2 size:"<<r2[0].size();
+			// without repetition
+			if( 1 == d%2 )
+			{
+				for(int i = 0; i < 10; i++ )
+				{
+					// With / Without zeroes
+					//r2[i].push_back( power(10, d) * i );
+					for(int j = i; j < 10; j++ )
+					{
+						// go through j*, optimized here
+						for( int k = 0; k < r1[j].size(); k++ )
+						{
+							// before - r2[i].push_back( power(10, d) * j + r1[j][k] ), j are values to be added, i is to be multiplied
+							r2[i].push_back( power(10, d) * i + r1[j][k] );
+						}
+					}
+					//r1[i].erase(r1[i].begin(), r1[i].end());
+					//r1[i].clear();
+				}
+			}
+			else
+			{
+				for(int i = 0; i < 10; i++ )
+				{
+					// With / Without zeroes
+					//r1[i].push_back( power(10, d) * i );
+					for(int j = i; j < 10; j++ )
+					{
+						for( int k = 0; k < r2[j].size(); k++ )
+						{
+							r1[i].push_back( power(10, d) * i + r2[j][k] );
+						}
+					}
+					//r2[i].erase(r2[i].begin(), r2[i].end());
+					//r2[i].clear();
+				}
+			}
+			//cout<<"\nR1 size:"<<r1[0].size();
+			//cout<<"\nR2 size:"<<r2[0].size();
+		}
+		
+	}
+	
+	if(even)
+	{
+		print(r2);
+	}
+	else
+	{
+		print(r1);
+	}
+	
+}
+
+int power(int base, int pow)
+{
+	int val = base;
+	if(pow == 0)
+	{
+		return 1;
+	}
+	else if( 0 < pow )
+	{
+		while( 1 < pow )
+		{
+			val*=base;
+			pow-=1;
+		}
+		return val;
+	}
+}
+
+void print(vector<vector<int>> & k)
+{
+	cout<<"\n Vector: "<<endl;
+	for(int i = 0; i < 10; i++)
+	{
+		for(int j = 0; j < k[i].size(); j++)
+		{
+			cout<<k[i][j]<<",";
+		}
+		cout<<"\n\n";
+	}
+}
