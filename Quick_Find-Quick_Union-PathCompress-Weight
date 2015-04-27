@@ -1,0 +1,352 @@
+package prac;
+
+import java.util.Scanner;
+
+public class Robert_1_Quick {
+
+	/**
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		//quickfind();		//DONE
+		//quickUnion();		//DONE
+		//weightedQuickUnion();	// DONE
+		//PathcompressionQuickUnion(); // Not required
+		PathCompressionWeightedQuickUnion();
+		
+		// Special
+		//percolation();
+	}
+	
+	// Path Compression : Start
+	public static void PathCompressionWeightedQuickUnion()
+	{
+		int arr[] = new int[10];
+		int weight[] = new int[10];
+		
+		for(int i = 0; i < arr.length; i++)
+		{
+			arr[i] = i;
+			weight[i] = 1;
+		}
+		
+		print(arr);
+		union3(4,3,arr,weight);
+		print(arr);
+		union3(3,8,arr,weight);
+		print(arr);
+		union3(6,5,arr,weight);
+		print(arr);
+		union3(9,4,arr,weight);
+		print(arr);
+		union3(2,1,arr,weight);
+		print(arr);
+		find3(8,9,arr);		// connected
+		print(arr);
+		find3(5,4,arr);		// connected
+		print(arr);
+		union3(5,0,arr,weight);
+		print(arr);
+		union3(7,2,arr,weight);
+		print(arr);
+		union3(6,1,arr,weight);
+		print(arr);
+		union3(7,3,arr,weight);
+		print(arr);
+		find3(5,7,arr);		// connected
+		print(arr);
+		
+	}
+	public static void union3(int x, int y, int[] arr, int[] weight)
+	{
+		int r1 = root3(x, arr);
+		int r2 = root3(y, arr);
+		
+		if(r1 != r2)
+		{
+			if(weight[r1] <= weight[r2])
+			{
+				arr[r1] = r2;
+				weight[r2]+=weight[r1];
+			}
+			else
+			{
+				arr[r2] = r1;
+				weight[r1]+=weight[r2];
+			}
+		}
+		
+	}
+	public static int root3(int x, int[] arr)
+	{
+		// Connecting to parent
+		if(arr[x] == x)
+		{
+			return x;
+		}
+		// All will point the topmost root
+		arr[x] = root3(arr[x], arr);
+		/*while(arr[x] != x)
+		{
+			x = arr[x];
+		}*/
+		return arr[x];
+	}
+	public static void find3(int x, int y, int[] arr)
+	{
+		if(root3(x, arr) == root3(y, arr))
+		{
+			System.out.println("\n Connected");
+		}
+		else
+		{
+			System.out.println("\n Not Connected");
+		}
+	}
+	// Path Compression : End
+	
+	// Weighted Quick Union : Start
+	public static void weightedQuickUnion()
+	{
+		int arr[] = new int[10];
+		int weight[] = new int[10];
+		
+		for(int i = 0; i < arr.length; i++)
+		{
+			arr[i] = i;
+			weight[i] = 1;
+		}
+		
+		print(arr);
+		union2(4,3,arr,weight);
+		print(arr);
+		union2(3,8,arr,weight);
+		print(arr);
+		union2(6,5,arr,weight);
+		print(arr);
+		union2(9,4,arr,weight);
+		print(arr);
+		union2(2,1,arr,weight);
+		print(arr);
+		find2(8,9,arr);		// connected
+		print(arr);
+		find2(5,4,arr);		// connected
+		print(arr);
+		union2(5,0,arr,weight);
+		print(arr);
+		union2(7,2,arr,weight);
+		print(arr);
+		union2(6,1,arr,weight);
+		print(arr);
+		union2(7,3,arr,weight);
+		print(arr);
+		find2(5,7,arr);		// connected
+		print(arr);
+		
+	}
+	// Weighted Union
+	public static void union2(int x, int y, int[] arr, int[] weight)
+	{
+		int r1 = root2(x, arr);
+		int r2 = root2(y, arr);
+		if(r1 == r2)
+		{
+			// Already connected
+		}
+		else
+		{
+			if(weight[r1] <= weight[r2])
+			{
+				arr[r1] = r2;
+				weight[r2]+=weight[r1];
+			}
+			else
+			{
+				arr[r2] = r1;
+				weight[r1]+=weight[r2];
+			}
+		}
+	}
+	public static int root2(int n, int arr[])
+	{
+		// Keep going towards parent
+		while(arr[n] != n)
+		{
+			n = arr[n];
+		}
+		return n;
+	}
+	public static void find2(int x, int y, int[] arr)
+	{
+		if(root2(x,arr) == root2(y,arr))
+		{
+			System.out.println("\n Connected");
+		}
+		else
+		{
+			System.out.println("\n Not Connected");
+		}
+	}
+	// Weighted Quick Union : End
+	
+	// Quick Union : Start
+	public static void quickUnion()
+	{
+		int[] arr = new int[10];
+		// Initialize
+		for(int i = 0; i < 10; i++)
+		{
+			arr[i] = i;
+		}
+		
+		print(arr);
+		union1(4,3,arr);
+		print(arr);
+		union1(3,8,arr);
+		print(arr);
+		union1(6,5,arr);
+		print(arr);
+		union1(9,4,arr);
+		print(arr);
+		union1(2,1,arr);
+		print(arr);
+		find1(8,9,arr);		// connected
+		print(arr);
+		find1(5,4,arr);		// connected
+		print(arr);
+		union1(5,0,arr);
+		print(arr);
+		union1(7,2,arr);
+		print(arr);
+		union1(6,1,arr);
+		print(arr);
+		union1(7,3,arr);
+		print(arr);
+		find1(5,7,arr);		// connected
+		print(arr);
+	}
+	// x, y are indices, arr stores their parents
+	public static void union1(int x, int y, int[] arr)
+	{
+		int rX = root1(x,arr);
+		int rY = root1(y,arr);
+		// already conected
+		if(rX == rY)
+		{
+			return;
+		}
+		// need to be connected
+		else
+		{
+			// this will lead to cycle, always join through root of tree
+			//arr[y] = rX;
+			
+			// Here size check should me made about the subtrees
+			arr[rX] = rY;
+		}
+	}
+	public static int root1(int i, int[] arr)
+	{
+		// root is having itself as parent
+		while(arr[i] != i){
+			i = arr[i];
+		}
+		// both are same, root has itself stored in array
+		return arr[i];
+		//return i;
+	}
+	public static void find1(int x, int y, int[] arr)
+	{
+		if(root1(x,arr) == root1(y,arr))
+		{
+			System.out.println("\nConnected");
+		}
+		else
+		{
+			System.out.println("\nNot Connected");
+		}
+	}
+	// Quick Union : End
+	
+	// Quick Find - Grouping Start
+	public static void quickfind()
+	{
+		Scanner obj = new Scanner(System.in);
+		int size = 0;//obj.nextInt();
+		size = 11;
+		// Hold group ids, forms the datatype of class
+		int[] arr = new int[size];
+		// Part of constructor
+		for(int i = 0; i < arr.length; i++)
+		{
+			arr[i] = i;
+		}
+		print(arr);
+		union(4,3,arr);
+		print(arr);
+		union(3,8,arr);
+		print(arr);
+		union(6,5,arr);
+		print(arr);
+		union(9,4,arr);
+		print(arr);
+		union(2,1,arr);
+		print(arr);
+		find(8,9,arr);		// connected
+		print(arr);
+		find(5,0,arr);		// connected
+		print(arr);
+		union(5,0,arr);
+		print(arr);
+		union(7,2,arr);
+		print(arr);
+		union(6,1,arr);
+		print(arr);
+		find(5,7,arr);		// connected
+		print(arr);
+		//union(1,9,arr);
+		//print(arr);
+	}
+	
+	public static void union(int x, int y, int[] arr)
+	{
+		if(arr[x] == arr[y])
+		{
+			return;
+		}
+		else
+		{
+			// O(n) to change the group
+			int val = arr[x];
+			for(int i = 0; i < arr.length; i++)
+			{
+				if(arr[i] == val)
+				{
+					arr[i] = arr[y];
+				}
+			}
+		}
+	}
+	
+	public static void find(int x, int y, int[] arr)
+	{
+		if(arr[x] == arr[y])
+		{
+			System.out.println("\nConneted");
+		}
+		else
+		{
+			System.out.println("\nNot Connected");
+		}
+	}
+	
+	public static void print(int[] arr)
+	{
+		System.out.println();
+		for(int i = 0; i < arr.length; i++)
+		{
+			System.out.print(arr[i]+",");
+		}
+	}
+	// Quick Find - Grouping End
+}
