@@ -1,0 +1,64 @@
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+void BigOn_ExtraMemory(vector<int> & arr)
+{
+	int even = 0;
+	int odd = 0;
+	vector<int> e;
+	vector<int> o;
+	
+	// does it in O(n), but uses extra arrays
+	for(int i = 0; i < arr.size(); i++)
+	{
+		if(arr[i]%2 == 0)
+		{
+			e.push_back(arr[i]);
+		}
+		else
+		{
+			o.push_back(arr[i]);
+		}
+	}
+	
+	for(int i = 0; i < arr.size(); i++)
+	{
+		if(i%2 == 0)
+		{
+			arr[i] = e[even];
+			even++;
+		}
+		else
+		{
+			arr[i] = o[odd];
+			odd++;
+		}
+	}
+}
+
+
+int main()
+{
+	vector<int> arr;
+	cout<<"Enter the elements, size should be even:";
+	int temp = 0;
+	cin >> temp;
+	while(temp > 0)
+	{
+		arr.push_back(temp);
+		cin >> temp;
+	}
+	// Runs in O(n) but uses additional arrays
+	BigOn_ExtraMemory(arr);
+
+	cout<<"\nOutput:";
+	for(int i = 0; i < arr.size(); i++)
+	{
+		cout<<arr[i]<<",";
+	}	
+	
+}
+
+
