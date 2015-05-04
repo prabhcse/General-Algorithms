@@ -1,0 +1,23 @@
+public static void Reverse()
+	{
+		Scanner obj = new Scanner(System.in);
+		int number = obj.nextInt();
+		boolean neg = false;
+		if(number < 0)
+		{
+			neg = true;
+			number*=-1;
+		}
+		int rev = 0;
+		while(number > 0)
+		{
+			rev = rev*10 + number%10;
+			number/=10;
+		}
+		if(neg)
+		{
+			rev*=-1;
+		}
+		System.out.println("\n Output:"+rev);
+		
+	}
