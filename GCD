@@ -1,0 +1,21 @@
+public static void GCD()
+	{
+		Scanner obj = new Scanner(System.in);
+		int a = obj.nextInt();
+		int b = obj.nextInt();
+		if(a < b)
+		{
+			int temp = a;
+			a = b;
+			b = temp;
+		}
+		
+		// till a is not divisible by b
+		while(a % b != 0)
+		{
+			int t = a/b;
+			a = b;
+			b = t;
+		}
+		System.out.println("GCD: "+b);
+	}
