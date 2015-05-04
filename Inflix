@@ -1,0 +1,68 @@
+// Computation of math functions +,-,*,/ in conjunction with '(',')'
+	public static void Inflix()
+	{
+		Scanner obj = new Scanner(System.in);
+		Stack<String> operand = new Stack<String>();
+		Stack<String> operator = new Stack<String>();
+		// Char array will not allow double digit numbers
+		String temp = obj.nextLine();
+		System.out.println("\n Input: "+temp);
+		// space between characters entered is used to differentiate them
+		String[] input = temp.split(" ");
+		
+		int i = 0;
+		while(i < input.length){
+			String get = String.valueOf(input[i++]);
+			if(get.equals("(")){
+				continue;
+			}
+			else if(get.equals("+"))
+			{
+				operator.push(get);
+			}
+			else if(get.equals("-"))
+			{
+				operator.push(get);
+			}
+			else if(get.equals("*"))
+			{
+				operator.push(get);
+			}
+			else if(get.equals("/"))
+			{
+				operator.push(get);
+			}
+			else if(get.equals(")"))
+			{
+				// Second operand is popped first
+				int a = Integer.parseInt(operand.pop());
+				// First operand is popped next
+				int b = Integer.parseInt(operand.pop());
+				String op = operator.pop();
+				//System.out.println("TO compute: "+b+op+a);
+				if(op.equals("+"))
+				{
+					operand.push(String.valueOf(b + a));
+				}
+				else if(op.equals("-"))
+				{
+					operand.push(String.valueOf(b - a));
+				}
+				else if(op.equals("*"))
+				{
+					operand.push(String.valueOf(b * a));
+				}
+				else if(op.equals("/"))
+				{
+					operand.push(String.valueOf(b / a));
+				}
+			}	// Closing parenthesis encountered
+			else
+			{
+				operand.push(get);
+			}
+		}	// while the input array has more elements
+		
+		String out = operand.pop();
+		System.out.println("\n Output : "+out);
+	}
