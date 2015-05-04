@@ -1,0 +1,13 @@
+public static void To_Binary()
+	{
+		Scanner obj = new Scanner(System.in);
+		int num = obj.nextInt();
+		StringBuffer ans = new StringBuffer();
+		while(num != 1)
+		{
+			ans.append(num%2);
+			num/=2;
+		}
+		ans.append(num);
+		System.out.println("\nOutput: "+ans.reverse().toString());
+	}
