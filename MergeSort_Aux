@@ -1,0 +1,79 @@
+public static void mergeSort_SingleAux()
+	{
+		Scanner obj = new Scanner(System.in);
+		int t = 0;
+		List<Integer> arr = new ArrayList<Integer>();
+		while((t = obj.nextInt()) != 0){
+			arr.add(t);
+		}
+		
+		System.out.println("\n Input : "+arr);
+		
+		split(arr, 0, arr.size()-1);
+		
+		System.out.println("\n Output : "+arr);
+	}
+	
+	public static void split(List<Integer> arr, int s, int e)
+	{
+		if(s < e)
+		{
+			int m = (s + e) / 2;
+			split(arr, s, m);
+			split(arr, m+1, e);
+			merge(arr, s, m, e);
+		}
+	}
+	
+	public static void merge(List<Integer> arr, int s, int m, int e)
+	{
+    // Improvement - 1 - (use single auxillary array)
+		List<Integer> aux = new ArrayList<Integer>();
+		
+		// Improvement - 2 - (use advantage of partial sorting)
+		if(arr.get(m) <= arr.get(m+1))
+		{
+			// already ordered
+			return;
+		}
+		
+		for(int i = s; i <= e; i++)
+		{
+			// aux will go from 0 to aux.size()-1
+			aux.add(arr.get(i));
+		}
+		
+		// Improvement - 3 - (no use of highest number append such as 9999)
+		int n1 = m-s;
+		int n2 = e-s;
+		
+		// s to m
+		int i = 0;
+		// m+1 to e
+		int j = n1+1;
+		
+		for(int k = s; k <= e; k++)
+		{
+			if(i > n1 && j <= n2)
+			{
+				arr.set(k, aux.get(j++));
+			}
+			else if(j > n2 && i <= n1)
+			{
+				arr.set(k, aux.get(i++));
+			}
+			else if( i <= n1 && j <= n2 && aux.get(i) <= aux.get(j))
+			{
+				arr.set(k, aux.get(i++));
+			}
+			else if( i <= n1 && j <= n2 && aux.get(i) > aux.get(j) )
+			{
+				arr.set(k, aux.get(j++));
+			}
+			else
+			{
+				System.out.println("\n Out of Bound Error");
+			}
+		}
+		
+	}
