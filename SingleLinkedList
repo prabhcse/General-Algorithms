@@ -1,0 +1,106 @@
+import java.util.Scanner;
+
+public class SingleLinkedList {
+	static Node head;
+	
+	public SingleLinkedList(int v)
+	{
+		Node n = new Node(v);
+		if(head == null)
+		{
+			head = n;
+		}
+		else
+		{
+			Node index = head;
+			
+			// puts the new value in the end of list, uncomment the multi-comment below to allow normal linked list form.
+			/*
+			while(index.next != null)
+			{
+				index = index.next;
+			}
+			index.next = n;
+			*/
+			
+			// creates the list in reverse, comment the lines below to allow norma linked list form.
+			n.next = index;
+			head = n;
+			
+		}
+	}
+	
+	// Inner Class
+	public class Node{
+		Integer val;
+		Node next;
+		
+		public Node()
+		{
+			val = 0;
+			next = null;
+		}
+		public Node(int v)
+		{
+			val = v;
+			next = null;
+		}
+	}
+	
+	public static void main(String[] args) 
+	{
+		Scanner obj = new Scanner(System.in);
+		int t = 0;
+		while((t = obj.nextInt()) != 0)
+		{
+			// head is a static variable so no need of object for now
+			new SingleLinkedList(t);
+		}
+		
+		Node cur = head;
+		System.out.println("\n Input: \n");
+		while(cur != null)
+		{
+			System.out.print(cur.val+",");
+			cur = cur.next;
+		}
+	  
+		new SingleLinkedList().reverseList(head);
+		
+		cur = head;
+		System.out.println("\n Output: \n");
+		while(cur != null)
+		{
+			System.out.print(cur.val+",");
+			cur = cur.next;
+		}
+		
+	}
+	
+	// Without any auxillary list, pass the head
+	public Node reverseList(Node n)
+	{
+		// empty node initialized
+		Node c = new Node();
+		// Last node
+		if(n.next == null)
+		{
+			head = new Node(n.val);
+			c = head;
+		}
+		else if(n.next != null)
+		{
+			c = reverseList(n.next);
+			// Handling vague pointing
+			n.next = null;
+			// New last node added
+			c.next = n;
+			// Last node till now
+			c = c.next;
+		}
+		// c will point to last element till now, 
+		// for very long lists this can lead to stack overflow
+		return c;
+	}
+
+}
