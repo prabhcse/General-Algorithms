@@ -1,0 +1,132 @@
+public static void bottomUpMergeSort()
+	{
+		Scanner obj = new Scanner(System.in);
+		ArrayList<Integer> arr = new ArrayList<Integer>();
+		
+//		int temp = 0;
+		
+/*		while((temp = obj.nextInt()) != 0)
+		{
+			arr.add(temp);
+		}
+*/		
+		for(int i = 2; i > 0; i--)
+		{
+			arr.add(i);
+		}
+		
+		System.out.println("\n Input: ");
+		for(int i = 0; i < arr.size(); i++)
+		{
+			System.out.print(arr.get(i)+",");
+			if( (i+1)%10 == 0 )
+			{
+				System.out.println();
+			}
+		}
+		
+		if(arr.size() == 0)
+		{
+			System.out.println("\n Input Array is Empty");
+			return;
+		}
+		else if(arr.size() == 1)
+		{
+			System.out.println("\n Output:"+arr);
+			return;
+		}
+		else if(arr.size() == 2)
+		{
+			if(arr.get(0) > arr.get(1))
+			{
+				int temp = arr.get(0);
+				arr.set(0, arr.get(1));
+				arr.set(1, temp);
+			}
+			System.out.println("\n Output:"+arr);
+			return;
+		}
+		
+		for(int j = 1; j < arr.size(); j = 2*j)
+		{
+			for(int k = 0; k < arr.size()-j; k = k + 2*j)
+			{
+				if( (k + (2*j)) < arr.size() )
+				{
+					merging( arr, k, k+j, j );
+				}
+				else
+				{
+					merging( arr, k, k+j, arr.size() - (k + j) );
+				}
+			}
+		}
+		
+		System.out.println("\n Output: ");
+		for(int i = 0; i < arr.size(); i++)
+		{
+			System.out.print(arr.get(i)+",");
+			if( (i+1)%10 == 0 )
+			{
+				System.out.println();
+			}
+		}
+		
+	}
+	
+	// a1 = start index of array One
+	// a2 = start index of array Two
+	// size(variable) = size of array Two and size of array One = a2-a1
+	public static void merging(ArrayList<Integer> arr, int a1, int a2, int size)
+	{
+		// Index Check
+//		System.out.println("\n a1:"+a1+" , a2:"+a2+" , size:"+size);
+		
+		if(arr.get(a2-1) < arr.get(a2))
+		{
+			// Already Sorted
+			return;
+		}
+		else
+		{
+			ArrayList<Integer> aux = new ArrayList<Integer>();
+			for(int k = a1; k < a2+size; k++)
+			{
+				aux.add(arr.get(k));
+			}
+			
+			// aux index
+			int i = 0;
+			int j = a2-a1;
+			
+			for(int k = a1; k < a2+size; k++)
+			{
+				if(i == a2-a1 && j < aux.size())
+				{
+					arr.set(k, aux.get(j));
+					j++;
+				}
+				else if(i < a2-a1 && j == aux.size())
+				{
+					arr.set(k, aux.get(i));
+					i++;
+				}
+				else if(i < a2-a1 && j < aux.size() && aux.get(i) <= aux.get(j))      // Stable Sort Implementation
+				{
+					arr.set(k, aux.get(i));
+					i++;
+				}
+				else if(i < a2-a1 && j < aux.size() && aux.get(i) > aux.get(j))
+				{
+					arr.set(k, aux.get(j));
+					j++;	
+				}
+			}
+			
+			// Intermediate Work
+//			System.out.println("\n AUX:"+aux);
+//			System.out.println("\n ARR:"+arr);
+			
+		}
+		
+	}
