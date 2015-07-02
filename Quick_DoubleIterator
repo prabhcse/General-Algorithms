@@ -1,0 +1,45 @@
+public static void Quick_DoubleIterator(ArrayList<Integer> arr, int s, int e)
+	{
+	// IMPORTANT: BEFORE CALLING THIS FUNCTION, RANDOMLY SHUFFLE THE ARRAY, OTHERWISE WORSE CASE N^2 COMPLEXITY
+		if(s < e)
+		{
+			// Invariant:
+			// elements before i are less than pivot
+			// elements after j are bigger than pivot
+			// pivot is first here, j points to pivot's position in the end(j crosses over to i's domain)
+			// Unknown elements are between i and j
+			int i = s+1, j = e, p = arr.get(s);
+			while(true)
+			{
+				// While loops
+				while(arr.get(i) < p)
+				{
+					if(i == e) break;
+					i++;
+				}
+				
+				while(arr.get(j) >= p)
+				{
+					if(j == s) break;
+					j--;
+				}
+				
+				// i=j=e all are smaller than p
+				if(i >= j)
+				{
+					break;
+				}
+				
+				int t = arr.get(i);
+				arr.set(i,arr.get(j));
+				arr.set(j,t);
+			}
+			// Pivot position
+			int t = arr.get(s);
+			arr.set(s,arr.get(j));
+			arr.set(j,t);
+			
+			Quick_DoubleIterator(arr, s, j-1);
+			Quick_DoubleIterator(arr, j+1, e);
+		}
+	}
