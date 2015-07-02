@@ -1,0 +1,39 @@
+public static void Quick_ThreePart(ArrayList<Integer> arr, int s, int e)
+	{
+		// IMPORTANT: BEFORE CALLING THIS FUNCTION, RANDOMLY SHUFFLE THE ARRAY, OTHERWISE WORSE CASE N^2 COMPLEXITY
+		if(s < e)
+		{
+			int i = s, j = e, k = s, p = arr.get(s);
+			// Invariant: 
+			// before i smaller than pivot, 
+			// after j bigger than pivot, 
+			// between i and k equal to pivot
+			// Unknown elements between k and j
+			while( k <= j )
+			{
+				if(arr.get(k) < p)
+				{
+					int t = arr.get(k);
+					arr.set(k, arr.get(i));
+					arr.set(i,t);
+					i++;k++;
+				}
+				else if(arr.get(k) > p)
+				{
+					int t = arr.get(k);
+					arr.set(k, arr.get(j));
+					arr.set(j,t);
+					j--;// k++ not done, as new element at arr[j] was unknown
+				}
+				else
+				{
+					k++;
+				}
+			}
+			// No need to swap pivot element, 
+			// as i is always on pivot element or equal to pivot element
+			Quick_ThreePart(arr, s, i-1);
+			Quick_ThreePart(arr, j+1, e);
+		}
+		
+	}
