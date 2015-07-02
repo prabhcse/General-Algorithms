@@ -1,0 +1,33 @@
+public static void Quick_SwapSort(ArrayList<Integer> arr, int s, int e)
+	{
+		// IMPORTANT: BEFORE CALLING THIS FUNCTION, RANDOMLY SHUFFLE THE ARRAY, OTHERWISE WORSE CASE N^2 COMPLEXITY
+		if(s < e)
+		{
+			// Invariant:
+			// elements before i, smaller than pivot
+			// elements after j, bigger or equal to pivot
+			// j always points to pivot
+			int i = s, j = e;
+			while(i < j)
+			{
+				if(arr.get(i) < arr.get(j))
+				{
+					i++;
+				}
+				else
+				{
+					int t = arr.get(j-1);
+					arr.set(j-1, arr.get(i));
+					arr.set(i, t);
+					
+					t = arr.get(j-1);
+					arr.set(j-1, arr.get(j));
+					arr.set(j, t);
+					
+					j--;
+				}
+			}
+			Quick_SwapSort(arr, s, j-1);
+			Quick_SwapSort(arr, j+1, e);
+		}
+	}
