@@ -1,0 +1,106 @@
+public static void heap_Sort(List <Integer> arr)
+{
+    System.out.println("\n Input: "+arr);
+
+		// Creating Max_Heap, N (Log N) : Log N - Sink
+		heap_create(arr);
+		
+		// Sorting via swap of max element
+		for(int i = arr.size() - 1; i > 0; i--)
+		{
+			// Replace highest
+			int temp1 = arr.get(0);
+			arr.set(0, arr.get(i));
+			arr.set(i, temp1);
+			
+			// Replaced with highest index, sink
+			sink(arr, 0, i-1);
+		}
+		
+		System.out.println("\n Output: "+arr);
+
+}
+
+	// Index starts from 0
+	public static void heap_create(List<Integer> arr)
+	{
+		int root = arr.size()-1;
+		// Right or Left child
+		if(root%2 == 0)
+		{
+			root = (root - 2) / 2;
+		}
+		else
+		{
+			root = (root - 1) / 2;
+		}
+		
+		while(root >= 0)
+		{
+			// Can code sink here too but need sink function for : sorting
+			sink(arr, root, arr.size()-1);
+			root--;
+		}
+		
+	}
+	
+	// To Maintain Heap, helps in deletion
+	// arr : array to be sorted.
+	// root : parent index of subtree.
+	// n : index of the last element to be considered part of heap.
+	public static void sink(List<Integer> arr, int root, int n)
+	{
+		// Check for Left child
+		while( ((2*root)+1) <= n)
+		{
+			// Check for Right child
+			if( ((2*root)+2) <= n )
+			{
+				if(arr.get( (2*root) + 1) > arr.get( (2*root) + 2))
+				{
+					if(arr.get( (2*root) + 1) > arr.get((root)) )
+					{
+						int temp = arr.get((2*root) + 1);
+						arr.set((2*root) + 1, arr.get(root));
+						arr.set(root, temp);
+						
+						root = 2*root + 1;  // Move to child node
+					}
+					else
+					{
+						break;
+					}
+				}
+				else
+				{
+					if(arr.get( (2*root) + 2) > arr.get((root)) )
+					{
+						int temp = arr.get((2*root) + 2);
+						arr.set((2*root) + 2, arr.get(root));
+						arr.set(root, temp);
+						
+						root = 2*root + 2;  // Move to child node
+					}
+					else
+					{
+						break;
+					}
+				}
+			}
+			else
+			{
+				if(arr.get( (2*root) + 1) > arr.get((root)) )
+				{
+					int temp = arr.get((2*root) + 1);
+					arr.set((2*root) + 1, arr.get(root));
+					arr.set(root, temp);
+					
+					root = 2*root + 1;  // Move to child node
+				}
+				else
+				{
+					break;
+				}
+			}
+		}// End of While
+	}
