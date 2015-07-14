@@ -57,18 +57,17 @@ int main()
 				for(int i = 0; i < 10; i++ )
 				{
 					// With / Without zeroes
-					//r2[i].push_back( power(10, d) * i );
+					r2[i].push_back( power(10, d) * i );
 					for(int j = i; j < 10; j++ )
 					{
 						// go through j*, optimized here
 						for( int k = 0; k < r1[j].size(); k++ )
 						{
-							// before - r2[i].push_back( power(10, d) * j + r1[j][k] ), j are values to be added, i is to be multiplied
 							r2[i].push_back( power(10, d) * i + r1[j][k] );
 						}
 					}
-					//r1[i].erase(r1[i].begin(), r1[i].end());
-					//r1[i].clear();
+					r1[i].erase(r1[i].begin(), r1[i].end());
+					r1[i].clear();
 				}
 			}
 			else
@@ -76,7 +75,7 @@ int main()
 				for(int i = 0; i < 10; i++ )
 				{
 					// With / Without zeroes
-					//r1[i].push_back( power(10, d) * i );
+					r1[i].push_back( power(10, d) * i );
 					for(int j = i; j < 10; j++ )
 					{
 						for( int k = 0; k < r2[j].size(); k++ )
@@ -84,8 +83,8 @@ int main()
 							r1[i].push_back( power(10, d) * i + r2[j][k] );
 						}
 					}
-					//r2[i].erase(r2[i].begin(), r2[i].end());
-					//r2[i].clear();
+					r2[i].erase(r2[i].begin(), r2[i].end());
+					r2[i].clear();
 				}
 			}
 			//cout<<"\nR1 size:"<<r1[0].size();
