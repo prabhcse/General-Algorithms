@@ -1,16 +1,17 @@
 #include <iostream>
+#include <iomanip>
 
 int main()
 {
-	int n = 0;
+	double n = 0.0;
 	int a = 10;
 	
 	std::cout<<"\n Give the number:";
 	std::cin>>n;
-	std::cout<<"\n Give the accuracy (the higher the better and atleast 10):";
+	std::cout<<"\n Give the accuracy (the higher the better and multiples of 10):";
 	std::cin>>a;
 	
-	if(n <= 0 || a < 10)
+	if(n <= 0 || a < 10 || a%10 != 0)
 	{
 		std::cout<<"\n Error, number or accuracy is incorrect";
 		return 1;
@@ -21,7 +22,7 @@ int main()
 		return 0;
 	}
 	
-	float guess1 = 2;
+	double guess1 = 2.0;
 	
 	// The number of iterations decide the accuracy
 	for(int i = 1; i <= a; i++)
@@ -29,16 +30,11 @@ int main()
 //		std::cout<<"\n Calculating";
 		
 		// Invarient: square root of a number will have divisor and quotient as same number with remainder zero
-		guess1 = (guess1 + n / guess1) / 2;
-		
-		// Early detection
-		if( (guess1*guess1) == n)
-		{
-			std::cout<<"\n Square Root:"<<guess1;
-			return 0;
-		}
+		guess1 = ( guess1 + (n / guess1) ) / 2.0;
+
 	}
 	
-	std::cout<<"\n Square Root:"<<guess1;
+	// Display result: set precision to higher value to display more digits (additional digit places are filled with trailing zeroes)
+	std::cout<<std::setprecision(20)<<std::fixed<<"\n Square Root:"<<guess1;
 	
 }
