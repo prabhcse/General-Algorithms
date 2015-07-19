@@ -1,0 +1,154 @@
+// cout and vector
+#include <iostream>
+// vector
+#include <vector>
+// generator and distribution
+#include <random>
+// seed from time
+#include <chrono>
+// abs function
+#include <cmath>
+
+using namespace std;
+
+void show(vector<int> & array)
+{
+	for(int i = 0; i < array.size(); i++)
+	{
+		cout<<array[i]<<",";
+	}
+}
+
+int main()
+{
+	vector<int> arr1;
+	vector<int> arr2;
+	vector<int> arr3;
+	
+  	std::uniform_int_distribution<int> dist(0,5);
+  	
+	for(int n = 10; n <= 20; n+=5)
+	{
+		int range = 5;
+		unsigned seed = chrono::system_clock::now().time_since_epoch().count();
+  		default_random_engine gen (seed*n);
+		for(int i = 1; i <= n; i++)
+		{
+			if(n == 10)
+			{
+				arr1.push_back( dist(gen) + range);
+			}
+			else if(n == 15)
+			{
+				arr2.push_back( dist(gen) + range);
+			}
+			else if(n == 20)
+			{
+				arr3.push_back( dist(gen) + range);
+			}
+			
+			range+=5;
+		}
+	}
+	
+	// Test:
+//	arr1.push_back(1988);
+//	arr2.push_back(1988);
+//	arr3.push_back(1988);
+	
+	cout<<"\n Array 1: ";
+	show(arr1);
+	cout<<"\n Array 2: ";
+	show(arr2);
+	cout<<"\n Array 3: ";
+	show(arr3);
+	
+	int index1 = 0;
+	int index2 = 0;
+	int index3 = 0;
+	int minDiff = -1;
+	int min1 = 0;
+	int min2 = 0;
+	int min3 = 0;
+	
+	// Does not check for a < b < c, condition
+	// Computes: (a-b) + (b-c) + (c-a)
+	while(index1 < arr1.size() || index2 < arr2.size() || index3 < arr3.size())
+	{
+		int temp = abs(arr1[index1] - arr2[index2]) + abs(arr2[index2] - arr3[index3]) + abs(arr3[index3] - arr1[index1]);
+		
+		// Initialize
+		if(minDiff == -1)
+		{
+			minDiff = temp;
+		}
+		// Update
+		if(  temp < minDiff  )
+		{
+			min1 = index1;
+			min2 = index2;
+			min3 = index3;
+			minDiff = temp;
+		}
+		
+		// Early Cutoff
+		if(minDiff == 0)
+		{
+			break;
+		}
+		
+		if(arr1[index1] < arr2[index2])
+		{
+			if(arr1[index1] < arr3[index3])
+			{
+				index1++;
+				// Out of bound check
+				if(index1 == arr1.size())
+				{
+					break;
+				}
+			}
+			else
+			{
+				index3++;
+				// Out of bound check
+				if(index3 == arr3.size())
+				{
+					break;
+				}
+			}
+		}
+		else
+		{
+			if(arr2[index2] < arr3[index3])
+			{
+				index2++;
+				// Out of bound check
+				if(index2 == arr2.size())
+				{
+					break;
+				}
+			}
+			else
+			{
+				index3++;
+				// Out of bound check
+				if(index3 == arr3.size())
+				{
+					break;
+				}
+			}
+		}
+	}
+	
+	if(minDiff < 0)
+	{
+		cout<<"\n ERROR in computing minimum difference";
+	}
+	else
+	{
+		cout<<"\n Found Minimum Difference:"<<minDiff<<", Element:"<<arr1[min1]<<","<<arr2[min2]<<","<<arr3[min3];
+	}
+	
+	
+}
