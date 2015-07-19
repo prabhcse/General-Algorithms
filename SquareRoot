@@ -23,7 +23,6 @@ int main()
 	
 	float guess1 = 2;
 	
-	
 	// The number of iterations decide the accuracy
 	for(int i = 1; i <= a; i++)
 	{
