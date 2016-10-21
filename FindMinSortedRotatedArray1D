@@ -1,0 +1,69 @@
+package sort_search;
+
+import java.util.ArrayList;
+import java.util.Scanner;
+
+public class Rotated_Array {
+
+	static ArrayList<Integer> arr = new ArrayList<Integer>();
+	
+	public static void main(String[] args) {
+
+		Scanner obj = new Scanner(System.in);
+		
+		int t;
+		while((t = obj.nextInt()) != 0)
+		{
+			arr.add(t);
+		}
+		
+		// Sorted Increasing order no rotation
+		if(arr.get(0) < arr.get(arr.size()-1))
+		{
+			printOut(arr.get(0));
+		}
+		// Sorted Decreasing order no rotation
+		else if(arr.get(arr.size()-2) > arr.get(arr.size()-1))
+		{
+			printOut(arr.get(arr.size()-1));
+		}
+		else
+		{
+			printOut(binarySearch(0, arr.size()-1));			
+		}
+		
+	}
+
+	public static void printOut(int x)
+	{
+		System.out.println("Smallest:"+x);
+	}
+
+	/*
+	 * We take advantage of the order of array.
+	 * The array goes into increasing order,
+	 * RESETs
+	 * Then again goes into increasing order.
+	 */
+	public static int binarySearch(int i, int k)
+	{
+	
+		int j = (i + k) / 2;
+		if(arr.get(i) < arr.get(j)) // previous element is smaller
+		{
+			i = j; 
+			return binarySearch(i, k);
+		}
+		else
+		{
+			if(arr.get(j-1) > arr.get(j) && arr.get(j) < arr.get(j+1))
+			{
+				return arr.get(j);
+			}
+			k = j; 
+			return binarySearch(i, k);
+		}
+	
+	}
+}
+
